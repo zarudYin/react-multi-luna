@@ -1,0 +1,15 @@
+{
+  "plugins": [
+    "transform-runtime",
+    "transform-decorators-legacy"
+  ],
+  "presets": [
+    [
+      "es2015",
+      {
+        "modules": false // webpack现在已经支持原生的import语句了
+      }
+    ],
+    "stage-1"
+  ]
+}
