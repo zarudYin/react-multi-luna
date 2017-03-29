@@ -1,13 +1,13 @@
 const webpack = require('webpack');
 const path = require('path');
-
+const entries = require('./entry.config.js');
 const PATH_SRC = path.join(__dirname, 'src');
+
+console.log(entries);
 
 module.exports = {
   context: PATH_SRC,
-  entry: {
-    //todo
-  },
+  entry: entries,
   module: {
     rules: [
       {
@@ -22,9 +22,6 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json-loader',
-        options: {
-          name: '[path]/[hash:8].[ext]'
-        }
       },
       {
         test: /\.(png|jpg|jpeg|gif)$/,

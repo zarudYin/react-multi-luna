@@ -2,10 +2,10 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-var fs = require('fs-extra');
+const fs = require('fs-extra');
 const path = require('path');
 const config = require('./webpack.config.js');
-
+const entries = require('./entry.config.js');
 const PATH_DIST = path.join(__dirname, "dist");
 const PATH_PUBLIC = path.join(__dirname, "public");
 
@@ -15,6 +15,16 @@ function copyPublicFolder() {
         dereference: true
     });
 }
+
+const htmlArray = [];
+for (let entry in entries) {
+    htmlArray.push(new HtmlWebpackPlugin({
+        filename: `${entry}.html`,
+        template: `${entry}.html`,
+        chunks: ['common', entry],
+    }))
+}
+
 
 module.exports = function (env) {
 
@@ -26,7 +36,7 @@ module.exports = function (env) {
         devtool: 'hidden-source-map',
         output: {
             path: PATH_DIST,
-            filename: '[name].[chunkhash:8].js',
+            filename: '[name].[hash:8].js',
             publicPath: '/'
         },
         module: {
@@ -57,27 +67,13 @@ module.exports = function (env) {
             ]
         },
         plugins: [
-            new HtmlWebpackPlugin({
-                template: './index.html',
-                minify: {
-                    removeComments: true,
-                    collapseWhitespace: true,
-                    removeRedundantAttributes: true,
-                    useShortDoctype: true,
-                    removeEmptyAttributes: true,
-                    removeStyleLinkTypeAttributes: true,
-                    keepClosingSlash: true,
-                    minifyJS: true,
-                    minifyCSS: true,
-                    minifyURLs: true
-                }
-            }),
+            ...htmlArray,
             new webpack.optimize.CommonsChunkPlugin({
-                names: ['vendor', 'manifest'],
-                minChunks: Infinity,
-                filename: '[name].[chunkhash:8].js'
+                names: 'common',
+                minChunks: 3,
+                filename: 'assets/js/common.[hash:8].js'
             }),
-            new ExtractTextPlugin('app.[contenthash:8].css')
+            new ExtractTextPlugin('[name].[contenthash:8].css')
         ],
     })
 }
