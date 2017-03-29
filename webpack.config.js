@@ -3,8 +3,6 @@ const path = require('path');
 const entries = require('./entry.config.js');
 const PATH_SRC = path.join(__dirname, 'src');
 
-console.log(entries);
-
 module.exports = {
   context: PATH_SRC,
   entry: entries,
@@ -54,6 +52,13 @@ module.exports = {
     },
   },
   plugins: [
-
+    new webpack.ProvidePlugin({
+      '$': 'jquery',
+      'jQuery': 'jquery',
+      'window.jQuery': 'jquery',
+      'window.$': 'jquery',
+      '_': 'underscore',
+      'window._': 'underscore',
+    }),
   ]
 };

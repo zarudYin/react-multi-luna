@@ -16,15 +16,16 @@ function copyPublicFolder() {
     });
 }
 
-const htmlArray = [];
+const htmlPluginArray = [];
 for (let entry in entries) {
-    htmlArray.push(new HtmlWebpackPlugin({
-        filename: `${entry}.html`,
-        template: `${entry}.html`,
-        chunks: ['common', entry],
-    }))
+    htmlPluginArray.push(
+        new HtmlWebpackPlugin({
+            filename: `${entry}.html`,
+            template: `${entry}.html`,
+            chunks: ['common', entry],
+        })
+    )
 }
-
 
 module.exports = function (env) {
 
@@ -67,11 +68,19 @@ module.exports = function (env) {
             ]
         },
         plugins: [
-            ...htmlArray,
+            ...htmlPluginArray,
             new webpack.optimize.CommonsChunkPlugin({
                 names: 'common',
                 minChunks: 3,
                 filename: 'assets/js/common.[hash:8].js'
+            }),
+            new webpack.optimize.UglifyJsPlugin({
+                compress: {
+                    warnings: false,
+                },
+                output: {
+                    comments: false,
+                }
             }),
             new ExtractTextPlugin('[name].[contenthash:8].css')
         ],
