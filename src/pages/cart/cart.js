@@ -1,4 +1,4 @@
-import './cart.less';
+import './cart.scss';
 
 console.log($);
 console.log(jQuery);

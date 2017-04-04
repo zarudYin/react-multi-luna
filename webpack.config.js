@@ -1,11 +1,19 @@
 const webpack = require('webpack');
 const path = require('path');
-const entries = require('./entry.config.js');
+const entry = require('./entry.config.js').entry;
+const html = require('./entry.config.js').html;
+
 const PATH_SRC = path.join(__dirname, 'src');
+const PATH_DIST = path.join(__dirname, "dist");
 
 module.exports = {
   context: PATH_SRC,
-  entry: entries,
+  entry: entry,
+  output: {
+    path: PATH_DIST,
+    filename: '[name].[hash].js',
+    publicPath: '/'
+  },
   module: {
     rules: [
       {
@@ -15,7 +23,7 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        use: 'html-loader',
+        use: 'underscore-template-loader',
       },
       {
         test: /\.json$/,
@@ -52,6 +60,12 @@ module.exports = {
     },
   },
   plugins: [
+    ...html,
+    new webpack.optimize.CommonsChunkPlugin({
+      names: 'common',
+      minChunks: html.length,
+      filename: 'assets/js/common.[hash:8].js'
+    }),
     new webpack.ProvidePlugin({
       '$': 'jquery',
       'jQuery': 'jquery',

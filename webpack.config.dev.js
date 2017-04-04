@@ -8,19 +8,13 @@ const PATH_DIST = path.join(__dirname, 'dist');
 const PATH_PUBLIC = path.join(__dirname, "public");
 const PATH_MOCK = path.join(__dirname, "mock");
 
-module.exports = function (env) {
+module.exports = function () {
     return webpackMerge(config, {
-        // devtool: 'cheap-module-source-map',           
-        devtool: 'cheap-module-eval-source-map',
-        output: {
-            path: PATH_DIST,
-            filename: '[path]/[name].js',
-            publicPath: '/'
-        },
+        devtool: 'cheap-module-source-map',
         module: {
             rules: [
                 {
-                    test: /\.(css|less)$/,
+                    test: /\.(css|scss)$/,
                     use: [
                         {
                             loader: 'style-loader'    //通过HTML热更新,使css达到热更新
@@ -36,7 +30,7 @@ module.exports = function (env) {
                             loader: 'postcss-loader'
                         },
                         {
-                            loader: 'less-loader',
+                            loader: 'sass-loader',
                             options: {
                                 sourceMap: true,
                             }
@@ -46,15 +40,6 @@ module.exports = function (env) {
             ]
         },
         plugins: [
-            //todo
-            new HtmlWebpackPlugin({
-                template: './index.html'
-            }),
-            new webpack.optimize.CommonsChunkPlugin({
-                name: 'vender',
-                minChunks: Infinity,
-                filename: '[name].js'
-            }),
             // 开启全局的模块热替换（HMR）
             new webpack.HotModuleReplacementPlugin(),
             // 当模块热替换（HMR）时在浏览器控制台输出对用户更友好的模块名字信息
