@@ -34,14 +34,14 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 8192,
-          name: '[path]/[name].[hash:8].[ext]'
+          name: '[path][name].[hash:8].[ext]'
         }
       },
       {
         test: /\.(woff|woff2|eot|ttf|svg)$/,
         loader: 'file-loader',
         options: {
-          name: '[path]/[name].[hash:8].[ext]'
+          name: '[path][name].[hash:8].[ext]'
         }
       }
     ],
