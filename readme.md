@@ -1,12 +1,12 @@
-## react-mobx-luna
->  基于webpack2的react脚手架
+## react-multi-luna
+>  基于webpack的多页面脚手架
 
 
 
 ### 拷贝项目模板
 
 ```basic
-$ git clone https://github.com/zarudYin/react-mobx-luna.git
+$ git clone https://github.com/zarudYin/react-multi-luna.git
 ```
 
 ### 安装依赖模块
